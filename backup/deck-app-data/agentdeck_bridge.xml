@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map>
+  <string name="host">127.0.0.1</string>
+  <int name="port" value="9120" />
+  <string name="token"></string>
+</map>

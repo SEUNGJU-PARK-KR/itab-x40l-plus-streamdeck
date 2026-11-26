@@ -130,6 +130,18 @@ adb reverse tcp:9120 tcp:9120
 - Fedora userland → Alpine Linux 교체 (net ~250–300 MB)
 - 결과: `/data` 24 GB 중 약 1.7 GB 사용 (8%)
 
+## Snapshot & native OS plan
+
+- **[backup/](backup/README.md)** — 현재 상태 스냅샷: Alpine rootfs, Termux home,
+  패키지 목록, deck-launcher 설정, `/vendor` 파티션 풀. 바이너리 tarball은
+  GitHub Release `snapshot-2026-11-26`에 첨부. Linux 서버 복구용이며
+  부트로더급 brick 복구는 BROM 덤프가 필요합니다.
+- **[docs/NATIVE_OS_PLAN.md](docs/NATIVE_OS_PLAN.md)** — SC9863A 네이티브 OS
+  (Droidian/libhybris) 전환 계획: 순정 `.pac` 확보 경로, BROM 전체 파티션 덤프,
+  언락 검증, 이미지 분석, 플래시 절차, 리스크.
+- **[docs/device/](docs/device/)** — `getprop`, 파티션 맵, 부트 상태 캡처
+  (`verifiedbootstate=green`, `oem_unlock_allowed=1`).
+
 ## Credits / References
 
 이 프로젝트는 아래 오픈소스 프로젝트와 리소스를 참고했습니다.

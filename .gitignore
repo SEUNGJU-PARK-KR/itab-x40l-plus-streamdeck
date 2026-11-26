@@ -23,3 +23,7 @@ Thumbs.db
 # Logs / temp
 *.log
 tmp/
+
+# Device snapshots (binaries live in GitHub Releases)
+backup/**/*.tar.gz
+backup/partitions/
