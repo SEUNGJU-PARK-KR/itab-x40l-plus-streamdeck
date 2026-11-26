@@ -1,0 +1,4 @@
+﻿Agent brand icons are derived from AgentDeck design/brand SVG assets.
+The original monochrome marks are from @lobehub/icons-static-svg (MIT License).
+They are used nominatively to identify interoperable agent tools; no endorsement is implied.
+Trademarks belong to their respective owners: Anthropic, OpenAI, Google, Amazon, opencode project, OpenClaw project, Z.ai/Zhipu, and Nous Research.

@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="host"></string>
+    <int name="port" value="9120" />
+    <string name="token"></string>
+</map>

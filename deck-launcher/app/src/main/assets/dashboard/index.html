@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ITAB Linux Server</title>
+<style>
+:root{color-scheme:dark;--text:#f6f8ff;--dim:#aab4d6;--line:rgba(255,255,255,.24);--glass:rgba(255,255,255,.12);--glass2:rgba(255,255,255,.07);--cyan:#33d6ff;--green:#48e59a;--amber:#ffc857;--red:#ff6b7a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+body{margin:0;min-height:100vh;font-family:sans-serif;color:var(--text);background:radial-gradient(circle at 12% 8%,rgba(82,93,255,.38),transparent 34%),radial-gradient(circle at 84% 88%,rgba(0,214,255,.28),transparent 38%),linear-gradient(145deg,#05070d,#101b34 54%,#05070d);overflow-x:hidden}
+.shell{max-width:1180px;margin:0 auto;padding:28px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.brand small{display:block;color:var(--dim);margin-top:4px}
+.brand h1{margin:0;font-size:28px;letter-spacing:.06em}
+.chip,.action{border:1px solid var(--line);background:linear-gradient(180deg,var(--glass),var(--glass2));border-radius:18px;color:var(--text);box-shadow:0 12px 30px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.14)}
+.chip{padding:10px 16px;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.06));padding:18px;box-shadow:0 18px 44px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.18);min-height:112px}
+.label{color:var(--dim);font-size:13px}
+.value{font-size:23px;font-weight:700;margin-top:10px;word-break:break-all}
+.wide{grid-column:span 2}
+.full{grid-column:span 4}
+.lan{border-color:rgba(51,214,255,.4)}
+.lan-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lan-status{font-size:20px;font-weight:700}
+.lan-status.off{color:var(--amber)}
+.kvgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.kv{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.22);min-width:0}
+.kv .k{color:var(--dim);font-size:12px;min-width:88px;flex-shrink:0}
+.kv .v{flex:1;font-family:monospace;font-size:14px;color:#e6f4ff;user-select:text;word-break:break-all;min-width:0}
+.copybtn{flex-shrink:0;border:1px solid var(--line);background:rgba(255,255,255,.1);color:var(--text);border-radius:10px;padding:6px 10px;font-size:12px;cursor:pointer;touch-action:manipulation}
+.copybtn:active{transform:scale(.94)}
+.note{margin:14px 0 0;color:var(--dim);font-size:12px;line-height:1.55}
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.svc{padding:16px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.08)}
+.svc b{display:block;margin-bottom:8px}
+.state{color:var(--cyan)}
+.state.ok{color:var(--green)}
+.state.warn{color:var(--amber)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+.action{padding:13px 18px;font-size:15px;cursor:pointer;touch-action:manipulation}
+.action:active{transform:scale(.96)}
+.primary{border-color:rgba(51,214,255,.55);color:#dff8ff}
+.danger{border-color:rgba(255,107,122,.55);color:#ffe5e9}
+.log{white-space:pre-wrap;user-select:text;color:#d9e3ff;background:rgba(0,0,0,.28);border-radius:16px;padding:14px;min-height:96px;font-family:monospace;font-size:12px}
+.ok{color:var(--green)}
+.warn{color:var(--amber)}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.full{grid-column:span 2}.services{grid-template-columns:1fr}.kvgrid{grid-template-columns:1fr}.shell{padding:18px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><h1>ITAB LINUX SERVER</h1><small>Oracle Linux-style control plane · Android embedded edition</small></div>
+    <div class="chip" id="clock">--:--</div>
+  </div>
+  <div class="grid">
+    <div class="card full lan">
+      <div class="lan-head">
+        <div class="label">LAN 접속</div>
+        <div class="lan-status" id="lanStatus">-</div>
+      </div>
+      <div class="kvgrid">
+        <div class="kv"><span class="k">Wi-Fi / LAN IP</span><code class="v" id="lanIp">-</code><button class="copybtn" data-copy="lanIp">복사</button></div>
+        <div class="kv"><span class="k">SSH (Termux)</span><code class="v" id="lanSsh">-</code><button class="copybtn" data-copy="lanSsh">복사</button></div>
+        <div class="kv"><span class="k">Linux HTTP</span><code class="v" id="lanLinux">-</code><button class="copybtn" data-copy="lanLinux">복사</button></div>
+        <div class="kv"><span class="k">대시보드 URL</span><code class="v" id="lanDash">-</code><button class="copybtn" data-copy="lanDash">복사</button></div>
+      </div>
+      <p class="note">서비스는 모든 네트워크 인터페이스에 바인딩되어 Wi‑Fi 변경 후에도 재시작 없이 새 IP로 접속 가능합니다. 단, 대시보드 시작/중지는 서비스 상태에 따라 달라질 수 있습니다.</p>
+    </div>
+    <div class="card"><div class="label">DEVICE</div><div class="value" id="model">-</div></div>
+    <div class="card"><div class="label">NETWORK</div><div class="value" id="ips">-</div></div>
+    <div class="card"><div class="label">MEMORY</div><div class="value" id="memory">-</div></div>
+    <div class="card"><div class="label">STORAGE</div><div class="value" id="storage">-</div></div>
+    <div class="card wide"><div class="label">SERVICES</div><div class="services">
+      <div class="svc"><b>Dashboard</b><span class="state ok">running</span><div class="label">127.0.0.1:8080</div></div>
+      <div class="svc"><b>Linux userland</b><span class="state" id="linuxState">-</span><div class="label">Alpine proot</div></div>
+      <div class="svc"><b>SSH</b><span class="state" id="sshState">-</span><div class="label">Termux port 8022</div></div>
+      <div class="svc"><b>Linux HTTP</b><span class="state" id="linuxHttpState">-</span><div class="label">Alpine container port 8081</div></div>
+      <div class="svc"><b>웹 터미널</b><span class="state" id="termState">-</span><div class="label">태블릿 화면 전용(localhost:7681)</div></div>
+    </div></div>
+    <div class="card wide"><div class="label">CONTROL</div><div class="actions">
+      <button class="action primary" data-action="linux.install">Linux 환경 설치</button>
+      <button class="action" data-action="linux.bootstrap">부팅 자동시작 구성</button>
+      <button class="action primary" data-action="linux.start">서버 시작</button>
+      <button class="action danger" data-action="linux.stop">서버 중지</button>
+      <button class="action" data-action="termux.open">Termux 열기</button>
+    </div><p class="label" style="margin-top:14px">systemd/Cockpit은 proot에서 직접 지원되지 않습니다. 이 대시보드는 Alpine Linux 사용자 공간과 SSH/서비스 상태를 제어하는 경량 control plane입니다.</p></div>
+    <div class="card full"><div class="label">EVENT LOG</div><div class="log" id="log">loading…</div></div>
+  </div>
+</div>
+<script>
+function fmtBytes(n){if(!n)return '-';const u=['B','KB','MB','GB'];let i=0;while(n>1024&&i<u.length-1){n/=1024;i++}return n.toFixed(1)+' '+u[i]}
+function setState(el,s){el.textContent=s||'-';el.classList.remove('ok','warn');if(s&&s.indexOf('running')===0)el.classList.add('ok');else if(s&&s!=='-'&&s!=='missing')el.classList.add('warn')}
+function setLan(j){const a=j&&j.access?j.access:null;
+  if(a&&a.ip){lanStatus.textContent=a.ip;lanStatus.classList.remove('off');
+    lanIp.textContent=a.ip;lanSsh.textContent=a.ssh||'-';lanLinux.textContent=a.linuxHttp||'-';lanDash.textContent=a.dashboard||'-'}
+  else{lanStatus.textContent='Wi-Fi 미연결';lanStatus.classList.add('off');
+    lanIp.textContent='-';lanSsh.textContent='-';lanLinux.textContent='-';lanDash.textContent='-'}}
+async function refresh(){try{const r=await fetch('/api/status',{cache:'no-store'});const j=await r.json();
+  model.textContent=j.model+' · Android '+j.android;
+  ips.textContent=(j.ips||[]).join(', ')||'127.0.0.1';
+  memory.textContent=fmtBytes(j.memoryAvailableBytes)+' / '+fmtBytes(j.memoryTotalBytes);
+  storage.textContent=fmtBytes(j.storageAvailableBytes)+' free';
+  const s=j.services||{};
+  setState(linuxState,s.linuxUserland);setState(sshState,s.ssh);setState(linuxHttpState,s.linuxHttp);setState(termState,s.terminal);
+  setLan(j);
+  const lr=await fetch('/api/logs',{cache:'no-store'});const lj=await lr.json();log.textContent=(lj.lines||[]).slice(0,12).join('\n')||'no events'}catch(e){log.textContent='status error: '+e}}
+async function action(a){log.textContent='running '+a+'…';try{const r=await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:a})});const j=await r.json();log.textContent=j.result;refresh()}catch(e){log.textContent='action failed: '+e}}
+async function copyText(id,btn){const el=document.getElementById(id);const t=el?el.textContent:'';if(!t||t==='-')return;
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t)}else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
+    if(btn){const o=btn.textContent;btn.textContent='복사됨';setTimeout(()=>btn.textContent=o,1200)}}catch(e){}}
+document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('pointerdown',ev=>{ev.preventDefault();action(b.dataset.action)}));
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('pointerdown',ev=>{ev.preventDefault();copyText(b.dataset.copy,b)}));
+setInterval(()=>clock.textContent=new Date().toLocaleTimeString(),1000);refresh();setInterval(refresh,4000);
+</script>
+</body>
+</html>
