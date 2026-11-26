@@ -3,9 +3,12 @@
 Captured: 2026-11-26 · Android 11 · slot `_a` · verified boot `green` · `oem_unlock_allowed=1`
 
 This directory holds a **userland snapshot** — enough to rebuild the Termux + Alpine
-Linux server and the deck-launcher app state without touching the OS. It does **not**
-cover bootloader/partition-level recovery; for that see `docs/NATIVE_OS_PLAN.md`
-(Phase 0b: BROM full-partition dump).
+Linux server and the deck-launcher app state without touching the OS.
+
+For partition/bootloader-level recovery see `../brom-dump/` — a full BROM read-only
+dump of every GPT partition (boot chain, NV/RF, OS images, `super`), captured
+2026-11-26 via `spd_dump` + borrowed SC9863A FDL. Restore procedure:
+`docs/NATIVE_OS_PLAN.md` Phase 0b/4.
 
 ## Contents
 
@@ -53,8 +56,9 @@ tar xzf /sdcard/termux-home.tar.gz -C $HOME
 sh $HOME/start-itab.sh
 ```
 
-## Not covered — real brick recovery
+## Not covered
 
-If bootloader/GPT/super is corrupted, this snapshot cannot help. The recovery path is
-the BROM read/write dump described in `docs/NATIVE_OS_PLAN.md` Phase 0b, which requires
-SC9863A FDL files and physical button access to the tablet.
+`userdata` (24.7 GB) is intentionally not in `brom-dump/` — mostly empty and the
+userland that matters is already snapshotted above. Everything else — `splloader`
+through `super` — is dumped. If `super` itself is corrupted, restore the whole
+`brom-dump/` set via `spd_dump w` from download mode; see `docs/NATIVE_OS_PLAN.md`.

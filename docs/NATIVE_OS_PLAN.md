@@ -26,43 +26,41 @@ Device facts (verified on-device, `docs/device/`):
 and a full `/vendor` pull. Restores the *services* quickly. Does **not** cover
 bootloader/partition corruption.
 
-### 0b. BROM full-partition dump — THE brick-recovery baseline
+### 0b. BROM full-partition dump — IN PROGRESS (breakthrough 2026-11-26)
 
 A complete read-only dump of every partition is our replacement for a stock `.pac`
 (which is not publicly available — see 0c). With it we can restore *this exact device*
 to its current state from BROM mode alone.
 
-**Blocker: FDL1/FDL2 files for SC9863A.** Options, in order of preference:
+**FDL blocker RESOLVED.** Borrowed FDL1/FDL2 from the SC9863A device pack in
+`TomKing062/CVE-2022-38694_unlock_bootloader` (ZTE Blade A5 2019 variant,
+`fdl/a5/`) works on this board — FDL is SoC-family-level, not board-level.
 
-1. Extract from any stock `.pac` of a same-SoC device (Teclast P20HD, Samsung Galaxy
-   A03 Core/A13, ITAB siblings, generic "SC9863A" firmwares on gsmfirmware-style sites).
-   FDL is SoC-family-level, not board-level — borrowing is standard practice.
-2. SharkL3 BROM exploit payloads (public research exists for SC9863A/UMS9230-family
-   bootroms) — allows read/write without signed FDL, higher skill requirement.
-3. Ask ITAB/Incar/Payhere support for the `PAYHERE_V1.0_20240626` package or FDL files.
+Working recipe (Windows host, SPRD Driver R4.20.4201 already installed):
 
-**Hardware procedure** (needs the physical tablet + USB cable to this PC):
+1. `adb reboot autodloader` → device enumerates as `SPRD U2S Diag(COM7)`.
+2. `spd_dump.exe fdl fdl1-sign.bin 0x5000 fdl fdl2-sign.bin 0x9efffe00 exec ...`
+   — FDL handshake succeeds, `partition_list` returns the full GPT (73 entries,
+   saved to `fdl/a5/partition.xml`; also `pgpt.bin` 32 KB primary GPT).
+3. **Required patch**: stock `spd_dump.exe` `FindPort()` mis-parses the friendly
+   name `SPRD U2S Diag(COM7)` (reads port digits at a fixed offset that lands past
+   the digits → "find port failed"). Binary patch applied at file offset `0x10448`:
+   search string `SPRD U2S Diag` → `SPRD U2S Dia` (one byte shorter, offset lands on
+   the `7`). Original saved as `spd_dump.exe.orig`. The `hisense/` copy of
+   `spd_dump.exe` (82 KB, different build) has the same bug — patch it the same way
+   if that pack is ever needed.
+4. Full-partition read: `exec path <dir> r <part> r <part> ... reset` — each `r`
+   writes `<part>.bin`. One session dumps everything; files persist even if a later
+   partition fails.
 
-1. Power off. Hold **Volume Up** (or the board-specific BROM key — may require opening
-   the case to a test point on early units) and plug USB.
-2. Device enumerates as `SPRD U2S Diag` / `SCI USB2Serial` (drivers already installed:
-   `drivers/SPD_Driver_R4.20.4201` in itab-firmware).
-3. Use `spd_dump` (Linux/WSL) in read mode:
-   `spd_dump --wait 300 exec_addr 0x65000800 read_flash partname start_sector size outputfile`
-   or full dump via `--read-flash` / partition-table dump first (`r partition_table`).
-4. Dump priority order — **never skip NV/RF**:
+**Dump status**: all P0 boot-chain + NV/RF + OS-image partitions dumping to
+`brom-dump/` (~5 GB total; `userdata` intentionally skipped — 24.7 GB, mostly empty,
+userland already snapshotted). Known gap: `hypervsior_a/b` (note SPRD's typo'd
+name) failed with "part not exist" — re-dump with the literal name afterwards.
 
-   | Tier | Partitions | Why |
-   |---|---|---|
-   | P0 boot chain | `splloader` (boot0/1), `sml_a/b`, `uboot_a/b`, `uboot_log`, `trustos_a/b`, `teecfg_a/b`, `pm_sys_a/b`, `hypervisor_a/b` | brick = no power/no display |
-   | P0 security | `prodnv`, `persist`, `l_fixnv1/2_a/b`, `l_runtimenv1/2`, `l_modem_a/b`, `l_deltanv_a/b`, `l_gdsp_a/b`, `l_ldsp_a/b`, `gnssmodem_a/b` | IMEI/RF calibration — **read-only forever, never write** |
-   | P0 OS | `boot_a/b`, `dtb_a/b`, `dtbo_a/b`, `vbmeta*`/`avbmeta_rs*`, `super`, `cache`, `metadata`, `logo`, `fbootlogo`, `misc`, `miscdata` | full OS restore |
-   | P1 data | `userdata` (optional — contains our setup; 24 GB, mostly empty) | convenience, not survival |
-
-5. Verify dumps: `spd_dump` prints per-partition SHA; store under
-   `backup/brom-dump/<date>/` with the scatter/partition table.
-
-**Risk:** read-only → low. Main risk is *not doing it* before any unlock/flash.
+**Brick-recovery property**: with `brom-dump/` complete, any bricked state can be
+restored by re-entering download mode and `w`-riting the P0 partitions back — no
+`.pac` or signed images required for the *stock* state.
 
 ### 0c. Stock `.pac` acquisition — parallel track
 
@@ -147,18 +145,21 @@ Waydroid (ARM support uncertain — likely no). Web app is the clean path.
 
 | Risk | Likelihood | Mitigation |
 |---|---|---|
-| No FDL for SC9863A | medium | same-SoC pac extraction; SharkL3 exploit; vendor request |
+| ~~No FDL for SC9863A~~ | **resolved** | borrowed ZTE Blade A5 2019 pack FDL works |
 | OEM unlock denied despite prop=1 | medium | BROM path; signed-image flash research |
 | Board mismatch (3h10 vs 1h10) | certain | own dtb/dtbo + vendor blobs; P20HD as reference only |
-| vbmeta key ≠ leaked key | unknown until dump | then need device-specific sign or verity-off exploit |
+| vbmeta key ≠ leaked key | check `vbmeta_a.bin` after dump | then need device-specific sign or verity-off exploit |
 | NV/RF partition write accident | low if careful | read-only rule; dump first; never include in flash sets |
 | Touch/Wi-Fi dead after port | medium | that's what libhybris/HAL reuse is for; web fallback for deck UI |
+| FDL session drops mid-dump | observed once | re-run `adb reboot autodloader` + same command; completed files persist |
 
 ## Immediate next actions (no risk, can start now)
 
-1. ✅ Userland snapshot + `/vendor` pull — done/in progress.
-2. Pull `/product` and `/system_ext` (same method, ~1.4 GB) — blob/prop reference.
-3. Try `adb reboot dsu` GSI trial (needs a GSI image — phh arm64 AB GSI ~1 GB download).
-4. Source FDL1/FDL2 for SC9863A (search same-SoC pac files; check P20HD repo docs —
-   its bringup notes may name the FDL source used).
-5. When physical access available: BROM dump per Phase 0b.
+1. ✅ Userland snapshot + `/vendor` pull — done.
+2. ✅ **BROM partition dump** — in progress → `brom-dump/` (FDL borrowed from
+   `fdl/a5/` pack; spd_dump port bug patched; see 0b for exact recipe).
+3. When dump completes: re-dump `hypervsior_a/b` (typo'd name), then analyze
+   `boot_a.bin` (kernel+dtb), `dtbo_a.bin`, `vbmeta_a.bin` (signing key check vs
+   leaked `rsa4096_vbmeta.pem`).
+4. Try `adb reboot dsu` GSI trial (needs a GSI image — phh arm64 AB GSI ~1 GB download).
+5. Keep `.pac` acquisition as parallel track (0c) — still no public source.
