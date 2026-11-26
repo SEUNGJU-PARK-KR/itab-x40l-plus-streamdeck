@@ -158,7 +158,7 @@ blobs, `lib/modules/*.ko` for this exact kernel, `etc/fstab`, firmware.
 | **A. Droidian + libhybris** | Debian userland, Android HAL via hybris — touch/Wi-Fi/audio keep working. P20HD precedent. | **Primary candidate.** Best "open source + working device" path. |
 | B. phh GSI (Android) | Vanilla AOSP GSI in super partition; needs unlock + `vbmeta --disable-verity --disable-verification`. | Fallback — still Android, smaller gains. Signing keys in hand make this easy too. |
 | C. postmarketOS | Mainline-ish Linux | **Rejected** — no HX83102 touch, WCN Wi-Fi, GE8322 GPU, VBC audio drivers. |
-| D. DSU trial boot | `adb reboot dsu` with GSI — **no unlock needed**, tests GSI compatibility risk-free | Do this early — cheap signal. |
+| D. DSU trial boot | `adb reboot dsu` with GSI | **Not viable** — P20HD notes: SELinux denials block DSU on SC9863A, needs root |
 
 **Signing pipeline (all pieces now local):**
 
@@ -204,6 +204,8 @@ Waydroid (ARM support uncertain — likely no). Web app is the clean path.
 4. ✅ **Device tree extracted** — `extracted-boot/main.dts` + `dtbo_4.dts` (our
    variant: BOE 83102 FHD, Himax touch, SC2355 Wi-Fi).
 5. Package `brom-dump` → GitHub Release (split <2 GB/asset) for off-site backup.
-6. Try `adb reboot dsu` GSI trial (phh arm64 AB GSI ~1 GB) — cheap OS-swap signal.
-7. Phase 3 build: follow `P20HD-Droidian` scripts — kernel + our dtb + Debian
-   rootfs + libhybris → signed boot/vbmeta → flash to slot `_b` first.
+6. Pull `avbtool` (AOSP external/avb) → `avbtool info_image --image
+   brom-dump/vbmeta_a.bin` to dump stock descriptors; replicate structure with
+   our image hashes. Reference: `P20HD-Droidian/scripts/13_sign_boot_avb.sh`.
+7. Phase 3 build: kernel + our dtb + Debian rootfs + libhybris → signed
+   boot/vbmeta → flash to slot `_b` first (BROM `w` path, no unlock needed).
