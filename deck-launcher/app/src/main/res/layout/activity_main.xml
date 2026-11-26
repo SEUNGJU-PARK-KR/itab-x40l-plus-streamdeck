@@ -112,6 +112,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
                 android:layout_weight="1"
                 android:background="@drawable/glass_card"
                 android:clickable="true"
@@ -140,7 +141,45 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Macro Deck 웹"
+                    android:text="AI 에이전트"
+                    android:textColor="#AAB4D6"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tablet_card"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:background="@drawable/glass_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    android:background="@drawable/glass_icon"
+                    android:contentDescription="태블릿"
+                    android:padding="18dp"
+                    android:src="@drawable/ic_tablet" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="태블릿"
+                    android:textColor="#F7FAFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="앱 서랍 · APK 설치"
                     android:textColor="#AAB4D6"
                     android:textSize="15sp" />
             </LinearLayout>

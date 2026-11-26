@@ -20,6 +20,7 @@ ITAB X40L Plus 태블릿(Android 11 / Unisoc SC9863A)을 **AgentDeck 호환 스�
   - `중단`, `ESC`, `재연결`, 사용량(`query_usage`) 표시
   - 에이전트별 브랜드 아이콘 (Claude, Codex, OpenCode, OpenClaw, Antigravity, Kiro, Hermes, z.ai)
   - UDP beacon 기반 브릿지 자동 검색 + 수동 endpoint/토큰/6자리 페어링 코드
+- **태블릿 모드**: 일반 태블릿처럼 설치된 앱을 아이콘 그리드로 실행하고, `APK 설치` 버튼으로 SAF 파일 선택 → 패키지 설치까지 지원합니다. 앱 길게 누르면 시스템 앱 정보(삭제/비활성화) 화면으로 이동합니다. 홈 롤(`android.app.role.HOME`)을 이 앱에 지정해 HOME 키가 항상 이 런처로 돌아옵니다.
 - **리눅스 서버**: Termux + proot-distro Alpine 위에서 SSH/웹 대시보드/웹 터미널을 제공합니다.
   - Dashboard `:8080` — 서비스 상태, LAN 접속 정보, 리소스 사용량
   - SSH `:8022` — Termux sshd
@@ -41,9 +42,10 @@ ITAB X40L Plus 태블릿(Android 11 / Unisoc SC9863A)을 **AgentDeck 호환 스�
 
 ```text
 ITAB X40L Plus (Android 11)
-├── deck-launcher (com.itab.deck)
-│   ├── Glass home — 카드 런처 + 상태 표시
+├── deck-launcher (com.itab.deck) — HOME 런처
+│   ├── Glass home — 리눅스 / 스트림덱 / 태블릿 3개 카드
 │   ├── DeckActivity — AgentDeck WebSocket 스트림덱
+│   ├── TabletActivity — 앱 서랍 + APK 설치 (PackageManager)
 │   └── LocalHttpServer :8080 — 대시보드 API + WebView
 ├── Termux (com.termux)
 │   ├── sshd :8022

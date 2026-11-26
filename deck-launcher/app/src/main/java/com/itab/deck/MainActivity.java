@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
         configureWebView();
         findViewById(R.id.linux_card).setOnClickListener(v -> openLinuxDashboard());
         findViewById(R.id.deck_card).setOnClickListener(v -> openStreamDeck());
+        findViewById(R.id.tablet_card).setOnClickListener(v -> openTablet());
         findViewById(R.id.settings_button).setOnClickListener(v -> showSettings());
         findViewById(R.id.dashboard_button).setOnClickListener(v -> openWeb(prefs.getString(KEY_LINUX_URL, DEFAULT_LINUX_URL), "리눅스 서버 대시보드"));
         findViewById(R.id.terminal_button).setOnClickListener(v -> openTerminal());
@@ -120,6 +121,10 @@ public class MainActivity extends Activity {
 
     private void openStreamDeck() {
         startActivity(new Intent(this, DeckActivity.class));
+    }
+
+    private void openTablet() {
+        startActivity(new Intent(this, TabletActivity.class));
     }
 
     private void openTerminal() {
