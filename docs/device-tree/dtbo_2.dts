@@ -1,0 +1,851 @@
+/ {
+  model = "Spreadtrum SC9863A-1H10 Board";
+  compatible = [ 31B ];
+  sprd,sc-id = "sp9863a 1h10 1000";
+  fragment {
+    target-path = "/";
+    __overlay__ {
+      lcds {
+        lcd_nt35695_truly_mipi_fhd {
+          sprd,dsi-work-mode = <0x1>;
+          sprd,dsi-lane-number = <0x4>;
+          sprd,dsi-color-format = "rgb888";
+          sprd,phy-bit-clock = <0xf4240>;
+          sprd,phy-escape-clock = <0x4e20>;
+          sprd,width-mm = <0x44>;
+          sprd,height-mm = <0x79>;
+          sprd,esd-check-enable = <0x1>;
+          sprd,esd-check-mode = <0x1>;
+          sprd,esd-check-period = <0x7d0>;
+          sprd,reset-on-sequence = <0x1 0x5 0x0 0x5 0x1 0x14>;
+          sprd,reset-off-sequence = <0x1 0x5>;
+          sprd,initial-command = [ 2977B ];
+          sprd,sleep-in-command = [ 21B ];
+          sprd,sleep-out-command = [ 10B ];
+          phandle = <0x21>;
+          display-timings {
+            native-mode = <0x1>;
+            timing0 {
+              clock-frequency = <0x927c000>;
+              hactive = <0x438>;
+              vactive = <0x780>;
+              hback-porch = <0x10>;
+              hfront-porch = <0xb0>;
+              vback-porch = <0x20>;
+              vfront-porch = <0x20>;
+              hsync-len = <0xa>;
+              vsync-len = <0x4>;
+              phandle = <0x1>;
+            };
+          };
+        };
+        lcd_nt35532_truly_mipi_fhd {
+          sprd,dsi-work-mode = <0x1>;
+          sprd,dsi-lane-number = <0x4>;
+          sprd,dsi-color-format = "rgb888";
+          sprd,phy-bit-clock = <0xeb7f8>;
+          sprd,phy-escape-clock = <0x4e20>;
+          sprd,width-mm = <0x44>;
+          sprd,height-mm = <0x79>;
+          sprd,esd-check-enable = <0x1>;
+          sprd,esd-check-mode = <0x1>;
+          sprd,reset-on-sequence = <0x1 0x5 0x0 0x5 0x1 0x14>;
+          sprd,reset-off-sequence = <0x1 0x5>;
+          sprd,initial-command = [ 3184B ];
+          sprd,sleep-in-command = [ 21B ];
+          sprd,sleep-out-command = [ 10B ];
+          phandle = <0x22>;
+          display-timings {
+            native-mode = <0x2>;
+            timing0 {
+              clock-frequency = <0x927c000>;
+              hactive = <0x438>;
+              vactive = <0x780>;
+              hback-porch = <0x10>;
+              hfront-porch = <0xb0>;
+              vback-porch = <0x20>;
+              vfront-porch = <0x20>;
+              hsync-len = <0xa>;
+              vsync-len = <0x4>;
+              phandle = <0x2>;
+            };
+          };
+        };
+        lcd_nt35596_boe_mipi_fhd {
+          sprd,dsi-work-mode = <0x1>;
+          sprd,dsi-lane-number = <0x4>;
+          sprd,dsi-color-format = "rgb888";
+          sprd,phy-bit-clock = <0xf4240>;
+          sprd,phy-escape-clock = <0x4e20>;
+          sprd,width-mm = <0x44>;
+          sprd,height-mm = <0x79>;
+          sprd,esd-check-enable = <0x1>;
+          sprd,esd-check-mode = <0x1>;
+          sprd,esd-check-period = <0x3e8>;
+          sprd,reset-on-sequence = <0x1 0x5 0x0 0x5 0x1 0x5 0x0 0x5 0x1 0x14>;
+          sprd,reset-off-sequence = <0x0 0x14>;
+          sprd,initial-command = [ 2878B ];
+          sprd,sleep-in-command = <0x130a0001 0x28137800 0x110230a 0x24f01>;
+          sprd,sleep-out-command = [ 10B ];
+          phandle = <0x23>;
+          display-timings {
+            native-mode = <0x3>;
+            timing0 {
+              clock-frequency = <0x927c000>;
+              hactive = <0x438>;
+              vactive = <0x780>;
+              hback-porch = <0x10>;
+              hfront-porch = <0xb0>;
+              vback-porch = <0x20>;
+              vfront-porch = <0x20>;
+              hsync-len = <0xa>;
+              vsync-len = <0x4>;
+              phandle = <0x3>;
+            };
+          };
+        };
+        lcd_dummy_mipi_hd {
+          sprd,dsi-work-mode = <0x1>;
+          sprd,dsi-lane-number = <0x4>;
+          sprd,dsi-color-format = "rgb888";
+          sprd,initial-command = [ 10B ];
+          sprd,sleep-in-command = [ 10B ];
+          sprd,sleep-out-command = [ 10B ];
+          phandle = <0x24>;
+          display-timings {
+            native-mode = <0x4>;
+            timing0 {
+              clock-frequency = <0x493e000>;
+              hactive = <0x2d0>;
+              vactive = <0x500>;
+              hback-porch = <0x3c>;
+              hfront-porch = <0x50>;
+              vback-porch = <0xc>;
+              vfront-porch = <0x26>;
+              hsync-len = <0x3c>;
+              vsync-len = <0x4>;
+              phandle = <0x4>;
+            };
+          };
+        };
+      };
+      fingerprint@0 {
+        compatible = "microarray,afs121";
+        fpint-gpios = <0xffffffff 0x82 0x0>;
+      };
+      sprd_backlight {
+        compatible = "pwm-backlight";
+        pwms = <0xffffffff 0x1 0x7530>;
+        pwm-names = "backlight";
+        brightness-levels = [ 1024B ];
+        default-brightness-level = <0x21>;
+        phandle = <0x7>;
+      };
+      thermal-sensor {
+        compatible = "generic-adc-thermal";
+        #thermal-sensor-cells = <0x0>;
+        io-channels = <0xffffffff 0x1>;
+        io-channel-names = "sensor-channel";
+        temperature-lookup-table = [ 120B ];
+        phandle = <0x1d>;
+      };
+      battery {
+        compatible = "simple-battery";
+        charge-full-design-microamp-hours = <0x2a6b60>;
+        charge-term-current-microamp = <0x1d4c0>;
+        constant_charge_voltage_max_microvolt = <0x426030>;
+        factory-internal-resistance-micro-ohms = <0x4e200>;
+        voltage-min-design-microvolt = <0x34a490>;
+        ocv-capacity-celsius = <0x14>;
+        ocv-capacity-table-0 = [ 168B ];
+        capacity-temp-table = <0x19 0x64 0xa 0x61 0xfffffff6 0x3c>;
+        resistance-temp-table = <0x14 0x64 0xa 0xf3 0xfffffff6 0x1d4>;
+        charge-sdp-current-microamp = <0x7a120 0x7a120>;
+        charge-dcp-current-microamp = <0x118c30 0x2dc6c0>;
+        charge-cdp-current-microamp = <0x118c30 0x118c30>;
+        charge-unknown-current-microamp = <0x7a120 0x7a120>;
+        phandle = <0x5>;
+      };
+      charger-manager {
+        status = "okay";
+        compatible = "charger-manager";
+        cm-name = "battery";
+        cm-poll-mode = <0x2>;
+        cm-poll-interval = <0x3a98>;
+        cm-battery-stat = <0x2>;
+        cm-fullbatt-vchkdrop-ms = <0x7530>;
+        cm-fullbatt-vchkdrop-volt = <0xea60>;
+        cm-fullbatt-voltage = <0x419ce0>;
+        cm-fullbatt-current = <0x1d4c0>;
+        cm-fullbatt-capacity = <0x64>;
+        cm-num-chargers = <0x1>;
+        cm-chargers = "fan54015_charger";
+        cm-fuel-gauge = "sc27xx-fgu";
+        cm-battery-cold = <0xc8>;
+        cm-battery-cold-in-minus = [ 0B ];
+        cm-battery-hot = <0x320>;
+        cm-battery-temp-diff = <0x64>;
+        cm-charging-max = <0x1499700>;
+        cm-discharging-max = <0x2932e0>;
+        cm-wdt-interval = <0x3c>;
+        cm-shutdown-voltage = <0x2f4d60>;
+        cm-tickle-time-out = <0x5dc>;
+        cm-one-cap-time = <0x1e>;
+        cm-charge-voltage-max = <0x632ea0>;
+        cm-charge-voltage-drop = <0xaae60>;
+        cm-dcp-jeita-temp-table = [ 64B ];
+        cm-sdp-jeita-temp-table = [ 64B ];
+        cm-cdp-jeita-temp-table = [ 64B ];
+        cm-unknown-jeita-temp-table = [ 64B ];
+        monitored-battery = <0x5>;
+        cm-capacity-track = [ 0B ];
+        cm-cap-remap-table = [ 48B ];
+        regulator@0 {
+          cm-regulator-name = "vddgen0";
+          cable@0 {
+            cm-cable-name = "USB";
+            extcon = <0xffffffff>;
+          };
+        };
+      };
+      gpio-keys {
+        compatible = "gpio-keys";
+        key-volumedown {
+          label = "Volume Down Key";
+          linux,code = <0x72>;
+          gpios = <0xffffffff 0x7c 0x1>;
+          debounce-interval = <0x2>;
+          wakeup-source = [ 0B ];
+        };
+        key-volumeup {
+          label = "Volume Up Key";
+          linux,code = <0x73>;
+          gpios = <0xffffffff 0xa 0x0>;
+          debounce-interval = <0x2>;
+          wakeup-source = [ 0B ];
+        };
+        key-power {
+          label = "Power Key";
+          linux,code = <0x74>;
+          gpios = <0xffffffff 0x1 0x1>;
+          debounce-interval = <0x2>;
+          wakeup-source = [ 0B ];
+        };
+      };
+    };
+  };
+  fragment@0 {
+    target = <0xffffffff>;
+    __overlay__ {
+      parts = "socko,odmko,boot,recovery,dtbo,l_modem,pm_sys,l_ldsp,l_gdsp";
+    };
+  };
+  fragment@1 {
+    target = <0xffffffff>;
+    __overlay__ {
+      bootargs_ext = "androidboot.hardware=s9863a1h10 androidboot.dtbo_idx=0";
+    };
+  };
+  fragment@2 {
+    target = <0xffffffff>;
+    __overlay__ {
+      logobuffer@fd580000 {
+        reg = <0x0 0xfd580000 0x0 0x7e9000>;
+        phandle = <0x20>;
+      };
+      camera@fdd69000 {
+        reg = <0x0 0xfdd69000 0x0 0xa00000>;
+        phandle = <0x1f>;
+      };
+      framebuffer@fe769000 {
+        reg = <0x0 0xfe769000 0x0 0x1817000>;
+        phandle = <0x1e>;
+      };
+    };
+  };
+  fragment@3 {
+    target = <0xffffffff>;
+    __overlay__ {
+      extcon = <0xffffffff 0xffffffff>;
+      vbus-supply = <0x6>;
+    };
+  };
+  fragment@4 {
+    target = <0xffffffff>;
+    __overlay__ {
+      avdd-gpio = <0xffffffff 0x4 0x0>;
+      avee-gpio = <0xffffffff 0x5 0x0>;
+      reset-gpio = <0xffffffff 0x32 0x0>;
+    };
+  };
+  fragment@5 {
+    target = <0xffffffff>;
+    __overlay__ {
+      status = "okay";
+      clock-frequency = <0x61a80>;
+      sensor-main@20 {
+        compatible = "sprd,sensor-main";
+        reg = <0x20>;
+        clock-names = [ 51B ];
+        clocks = [ 44B ];
+        vddio-supply = <0xffffffff>;
+        vddcama-supply = <0xffffffff>;
+        vddcamd-supply = <0xffffffff>;
+        vddcammot-supply = <0xffffffff>;
+        sprd,phyid = <0x1>;
+        csi = <0xffffffff>;
+        reset-gpios = <0xffffffff 0x2c 0x0>;
+        power-down-gpios = <0xffffffff 0x2e 0x0>;
+        phandle = <0x25>;
+      };
+    };
+  };
+  fragment@6 {
+    target = <0xffffffff>;
+    __overlay__ {
+      status = "okay";
+      clock-frequency = <0x61a80>;
+      sensor-sub@20 {
+        compatible = "sprd,sensor-sub";
+        reg = <0x20>;
+        clock-names = [ 51B ];
+        clocks = [ 44B ];
+        vddio-supply = <0xffffffff>;
+        vddcama-supply = <0xffffffff>;
+        vddcamd-supply = <0xffffffff>;
+        vddcammot-supply = <0xffffffff>;
+        sprd,phyid = <0x4>;
+        csi = <0xffffffff>;
+        reset-gpios = <0xffffffff 0x29 0x0>;
+        power-down-gpios = <0xffffffff 0x28 0x0>;
+        phandle = <0x26>;
+      };
+      sensor-main2@6C {
+        compatible = "sprd,sensor-main2";
+        reg = <0x6c>;
+        clock-names = [ 51B ];
+        clocks = [ 44B ];
+        vddio-supply = <0xffffffff>;
+        vddcama-supply = <0xffffffff>;
+        vddcamd-supply = <0xffffffff>;
+        vddcammot-supply = <0xffffffff>;
+        sprd,phyid = <0x3>;
+        csi = <0xffffffff>;
+        dvdd-gpios = <0xffffffff 0x3e 0x0>;
+        reset-gpios = <0xffffffff 0x2d 0x0>;
+        power-down-gpios = <0xffffffff 0x2f 0x0>;
+        phandle = <0x27>;
+      };
+      sensor-sub2@2a {
+        compatible = "sprd,sensor-sub2";
+        reg = <0x2a>;
+        clock-names = [ 51B ];
+        clocks = [ 44B ];
+        vddio-supply = <0xffffffff>;
+        vddcama-supply = <0xffffffff>;
+        vddcamd-supply = <0xffffffff>;
+        vddcammot-supply = <0xffffffff>;
+        sprd,phyid = <0x4>;
+        csi = <0xffffffff>;
+        reset-gpios = <0xffffffff 0x2d 0x0>;
+        power-down-gpios = <0xffffffff 0x28 0x0>;
+        phandle = <0x28>;
+      };
+    };
+  };
+  fragment@7 {
+    target = <0xffffffff>;
+    __overlay__ {
+      status = "okay";
+      adaptive-touchscreen@38 {
+        compatible = "adaptive-touchscreen";
+        reg = <0x38>;
+        gpios = <0xffffffff 0x91 0x0 0xffffffff 0x90 0x0>;
+        controller = "focaltech,FT5436";
+        virtualkeys = [ 60B ];
+        private-data {
+          a8 = "Z";
+        };
+      };
+    };
+  };
+  fragment@8 {
+    target = <0xffffffff>;
+    __overlay__ {
+      status = "okay";
+      clock-frequency = <0x61a80>;
+      charger@6a {
+        compatible = "fairchild,fan54015_chg";
+        reg = <0x6a>;
+        phys = <0xffffffff>;
+        monitored-battery = <0x5>;
+        extcon = <0xffffffff>;
+        phandle = <0x29>;
+        otg-vbus {
+          regulator-name = "vddvbus";
+          phandle = <0x6>;
+        };
+      };
+      flash-ic@63 {
+        compatible = "sprd,flash-ocp8137";
+        reg = <0x63>;
+        sprd,flash-ic = <0x1fc9>;
+        sprd,torch = <0x1>;
+        sprd,preflash = <0x1>;
+        sprd,highlight = <0x1>;
+        sprd,torch-level = <0x80>;
+        sprd,preflash-level = <0x80>;
+        sprd,highlight-level = <0x80>;
+        sprd,lvfm-enable = <0x1>;
+        flash-torch-en-gpios = <0xffffffff 0x58 0x0>;
+        flash-chip-en-gpios = <0xffffffff 0x59 0x0>;
+        flash-en-gpios = <0xffffffff 0x4c 0x0>;
+        flash-sync-gpios = <0xffffffff 0x8d 0x0>;
+        phandle = <0x2a>;
+      };
+    };
+  };
+  fragment@9 {
+    target = <0xffffffff>;
+    __overlay__ {
+      status = "okay";
+      clock-frequency = <0x61a80>;
+      regulator@60 {
+        compatible = "fcs,fan53555";
+        reg = <0x60>;
+        regulator-name = "fan53555";
+        regulator-min-microvolt = <0x93378>;
+        regulator-max-microvolt = <0x1587b8>;
+        regulator-ramp-delay = <0xfa00>;
+        regulator-always-on = [ 0B ];
+        fcs,suspend-voltage-selector = <0x1>;
+        phandle = <0x2b>;
+      };
+    };
+  };
+  fragment@10 {
+    target = <0xffffffff>;
+    __overlay__ {
+      monitored-battery = <0x5>;
+      sprd,calib-resistance-real = <0x4e20>;
+      sprd,calib-resistance-spec = <0x4e20>;
+      first-calib-voltage = <0x36ee80>;
+      first-calib-capacity = <0x28>;
+    };
+  };
+  fragment@11 {
+    target = <0xffffffff>;
+    __overlay__ {
+      sprd,backlight = <0x7>;
+    };
+  };
+  fragment@12 {
+    target = <0xffffffff>;
+    __overlay__ {
+      sprd-scene = [ 46B ];
+      sprd-freq = <0x3a5 0x190 0xe9 0x190 0x26e 0x3a5>;
+    };
+  };
+  fragment@13 {
+    target = <0xffffffff>;
+    __overlay__ {
+      hwdvfs_dev = <0x8 0x9 0xa>;
+      cluster@0 {
+        reg = <0x0>;
+        dcdc-ctrl = <0xb>;
+        phandle = <0x8>;
+      };
+      cluster@1 {
+        reg = <0x1>;
+        dcdc-ctrl = <0xc>;
+        phandle = <0x9>;
+      };
+      dsu@0 {
+        reg = <0x0>;
+        dcdc-ctrl = <0xc>;
+        phandle = <0xa>;
+      };
+      dcdc-controller@0 {
+        reg = <0x0 0x0>;
+        volt-via-adi = [ 0B ];
+        volt-hold-us = <0x32>;
+        volt-pause-us = <0x5>;
+        volt-timeout-us = <0x320>;
+        volt-stable-us = <0x5>;
+        volt-max-step-microvolt = <0x61a8>;
+        phandle = <0xc>;
+      };
+      dcdc-controller@1 {
+        reg = <0x1 0x2>;
+        volt-via-i2c = [ 0B ];
+        volt-hold-us = <0x19>;
+        volt-pause-us = <0x14>;
+        volt-timeout-us = <0x320>;
+        volt-stable-us = <0x19>;
+        volt-max-step-microvolt = <0x124f84>;
+        phandle = <0xb>;
+      };
+    };
+  };
+  fragment@14 {
+    target = <0xffffffff>;
+    __overlay__ {
+      pinctrl-names = [ 99B ];
+      pinctrl-0 = <0xd>;
+      pinctrl-1 = <0xe>;
+      pinctrl-2 = <0xf>;
+      pinctrl-3 = <0x10>;
+      pinctrl-4 = <0x11>;
+      pinctrl-5 = <0x12>;
+      pinctrl-6 = <0x13>;
+      pinctrl-7 = <0x14>;
+      pinctrl-8 = <0x15>;
+      pinctrl-9 = <0x16>;
+      pinctrl-10 = <0x17 0x18 0x19 0x1a 0x1b 0x1c>;
+      keyout0 {
+        pins = "SHARKL3_KEYOUT0";
+        function = "func4";
+        phandle = <0xd>;
+      };
+      keyout1 {
+        pins = "SHARKL3_KEYOUT1";
+        function = "func4";
+        phandle = <0xe>;
+      };
+      keyout2 {
+        pins = "SHARKL3_KEYOUT2";
+        function = "func4";
+        phandle = <0xf>;
+      };
+      keyin0 {
+        pins = "SHARKL3_KEYIN0";
+        function = "func4";
+        phandle = <0x10>;
+      };
+      keyin1 {
+        pins = "SHARKL3_KEYIN1";
+        function = "func4";
+        phandle = <0x11>;
+      };
+      keyin2 {
+        pins = "SHARKL3_KEYIN2";
+        function = "func4";
+        phandle = <0x12>;
+      };
+      extint0 {
+        pins = "SHARKL3_EXTINT0";
+        function = "func4";
+        phandle = <0x13>;
+      };
+      extint1 {
+        pins = "SHARKL3_EXTINT1";
+        function = "func4";
+        phandle = <0x14>;
+      };
+      scl3 {
+        pins = "SHARKL3_SCL3";
+        function = "func4";
+        phandle = <0x15>;
+      };
+      sda3 {
+        pins = "SHARKL3_SDA3";
+        function = "func4";
+        phandle = <0x16>;
+      };
+      rfsen0 {
+        pins = "SHARKL3_RFSEN0";
+        function = "func4";
+        phandle = <0x17>;
+      };
+      rfsck0 {
+        pins = "SHARKL3_RFSCK0";
+        function = "func4";
+        phandle = <0x18>;
+      };
+      rfsda0 {
+        pins = "SHARKL3_RFSDA0";
+        function = "func4";
+        phandle = <0x19>;
+      };
+      rfsen1 {
+        pins = "SHARKL3_RFSEN1";
+        function = "func4";
+        phandle = <0x1a>;
+      };
+      rfsck1 {
+        pins = "SHARKL3_RFSCK1";
+        function = "func4";
+        phandle = <0x1b>;
+      };
+      rfsda1 {
+        pins = "SHARKL3_RFSDA1";
+        function = "func4";
+        phandle = <0x1c>;
+      };
+    };
+  };
+  fragment@15 {
+    target = <0xffffffff>;
+    __overlay__ {
+      cd-gpios = <0xffffffff 0x9 0x1>;
+    };
+  };
+  fragment@16 {
+    target = <0xffffffff>;
+    __overlay__ {
+      board-thmzone {
+        polling-delay-passive = <0x0>;
+        polling-delay = <0x0>;
+        thermal-sensors = <0x1d>;
+        phandle = <0x2c>;
+      };
+    };
+  };
+  fragment@17 {
+    target = <0xffffffff>;
+    __overlay__ {
+      regulator-always-on = [ 0B ];
+    };
+  };
+  fragment@18 {
+    target = <0xffffffff>;
+    __overlay__ {
+      regulator-always-on = [ 0B ];
+    };
+  };
+  fragment@19 {
+    target = <0xffffffff>;
+    __overlay__ {
+      regulator-always-on = [ 0B ];
+    };
+  };
+  fragment@20 {
+    target = <0xffffffff>;
+    __overlay__ {
+      regulator-always-on = [ 0B ];
+    };
+  };
+  fragment@21 {
+    target = <0xffffffff>;
+    __overlay__ {
+      status = "disabled";
+    };
+  };
+  fragment@22 {
+    target = <0xffffffff>;
+    __overlay__ {
+      heap@3 {
+        reg = <0x3>;
+        label = "carveout_fb";
+        type = <0x2>;
+        memory-region = <0x1e>;
+      };
+      heap@4 {
+        reg = <0x4>;
+        label = "carveout_camera";
+        type = <0x2>;
+        memory-region = <0x1f>;
+      };
+    };
+  };
+  fragment@23 {
+    target = <0xffffffff>;
+    __overlay__ {
+      sprd,logo-memory = <0x20>;
+    };
+  };
+  __symbols__ {
+    lcd_nt35695_truly_mipi_fhd = "/fragment/__overlay__/lcds/lcd_nt35695_truly_mipi_fhd";
+    nt35695_truly_timing0 = "/fragment/__overlay__/lcds/lcd_nt35695_truly_mipi_fhd/display-timings/timing0";
+    lcd_nt35532_truly_mipi_fhd = "/fragment/__overlay__/lcds/lcd_nt35532_truly_mipi_fhd";
+    nt35532_truly_timing0 = "/fragment/__overlay__/lcds/lcd_nt35532_truly_mipi_fhd/display-timings/timing0";
+    lcd_nt35596_boe_mipi_fhd = "/fragment/__overlay__/lcds/lcd_nt35596_boe_mipi_fhd";
+    nt35596_boe_timing0 = "/fragment/__overlay__/lcds/lcd_nt35596_boe_mipi_fhd/display-timings/timing0";
+    lcd_dummy_mipi_hd = "/fragment/__overlay__/lcds/lcd_dummy_mipi_hd";
+    dummy_timing0 = "/fragment/__overlay__/lcds/lcd_dummy_mipi_hd/display-timings/timing0";
+    pwm_backlight = "/fragment/__overlay__/sprd_backlight";
+    tboard_thermistor = "/fragment/__overlay__/thermal-sensor";
+    bat = "/fragment/__overlay__/battery";
+    logo_reserved = "/fragment@2/__overlay__/logobuffer@fd580000";
+    camera_reserved = "/fragment@2/__overlay__/camera@fdd69000";
+    fb_reserved = "/fragment@2/__overlay__/framebuffer@fe769000";
+    sensor_main = "/fragment@5/__overlay__/sensor-main@20";
+    sensor_sub = "/fragment@6/__overlay__/sensor-sub@20";
+    sensor_main2 = "/fragment@6/__overlay__/sensor-main2@6C";
+    sensor_sub2 = "/fragment@6/__overlay__/sensor-sub2@2a";
+    fan54015_chg = "/fragment@8/__overlay__/charger@6a";
+    vddvbus = "/fragment@8/__overlay__/charger@6a/otg-vbus";
+    flash_ic = "/fragment@8/__overlay__/flash-ic@63";
+    fan53555_dcdc = "/fragment@9/__overlay__/regulator@60";
+    hwdvfs_cluster0 = "/fragment@13/__overlay__/cluster@0";
+    hwdvfs_cluster1 = "/fragment@13/__overlay__/cluster@1";
+    hwdvfs_dsu = "/fragment@13/__overlay__/dsu@0";
+    dcdc_ctrl0 = "/fragment@13/__overlay__/dcdc-controller@0";
+    dcdc_ctrl1 = "/fragment@13/__overlay__/dcdc-controller@1";
+    gpio_121 = "/fragment@14/__overlay__/keyout0";
+    gpio_122 = "/fragment@14/__overlay__/keyout1";
+    gpio_123 = "/fragment@14/__overlay__/keyout2";
+    gpio_124 = "/fragment@14/__overlay__/keyin0";
+    gpio_125 = "/fragment@14/__overlay__/keyin1";
+    gpio_126 = "/fragment@14/__overlay__/keyin2";
+    gpio_144 = "/fragment@14/__overlay__/extint0";
+    gpio_145 = "/fragment@14/__overlay__/extint1";
+    gpio_146 = "/fragment@14/__overlay__/scl3";
+    gpio_147 = "/fragment@14/__overlay__/sda3";
+    shutdown0 = "/fragment@14/__overlay__/rfsen0";
+    shutdown1 = "/fragment@14/__overlay__/rfsck0";
+    shutdown2 = "/fragment@14/__overlay__/rfsda0";
+    shutdown3 = "/fragment@14/__overlay__/rfsen1";
+    shutdown4 = "/fragment@14/__overlay__/rfsck1";
+    shutdown5 = "/fragment@14/__overlay__/rfsda1";
+    bd_thmzone = "/fragment@16/__overlay__/board-thmzone";
+  };
+  __fixups__ {
+    ap_gpio = [ 1049B ];
+    pwms = "/fragment/__overlay__/sprd_backlight:pwms:0";
+    pmic_adc = "/fragment/__overlay__/thermal-sensor:io-channels:0";
+    pmic_typec = [ 100B ];
+    pmic_eic = [ 103B ];
+    vbmeta = "/fragment@0:target:0";
+    chosen = "/fragment@1:target:0";
+    reserved_memory = "/fragment@2:target:0";
+    usb = "/fragment@3:target:0";
+    extcon_gpio = [ 77B ];
+    panel = [ 43B ];
+    i2c0 = "/fragment@5:target:0";
+    aon_clk = [ 192B ];
+    mm_gate = [ 192B ];
+    pll = [ 588B ];
+    ext_26m = [ 196B ];
+    vddcamio = [ 216B ];
+    vddcama = [ 224B ];
+    vddcamd = [ 224B ];
+    vddcammot = [ 232B ];
+    csi0 = [ 89B ];
+    i2c1 = "/fragment@6:target:0";
+    csi1 = "/fragment@6/__overlay__/sensor-main2@6C:csi:0";
+    csi2 = "/fragment@6/__overlay__/sensor-sub2@2a:csi:0";
+    i2c3 = "/fragment@7:target:0";
+    i2c4 = "/fragment@8:target:0";
+    hsphy = "/fragment@8/__overlay__/charger@6a:phys:0";
+    i2c7 = "/fragment@9:target:0";
+    pmic_fgu = "/fragment@10:target:0";
+    ddr_dfs = "/fragment@12:target:0";
+    sprd_hwdvfs = "/fragment@13:target:0";
+    pin_controller = "/fragment@14:target:0";
+    sdio0 = "/fragment@15:target:0";
+    eic_async = "/fragment@15/__overlay__:cd-gpios:0";
+    thm_zone = "/fragment@16:target:0";
+    vdd18 = "/fragment@17:target:0";
+    vddrf18 = "/fragment@18:target:0";
+    vddrf125 = "/fragment@19:target:0";
+    vddldomem = "/fragment@20:target:0";
+    vddsim2 = "/fragment@21:target:0";
+    ion = "/fragment@22:target:0";
+    dpu = "/fragment@23:target:0";
+  };
+  __local_fixups__ {
+    fragment {
+      __overlay__ {
+        lcds {
+          lcd_nt35695_truly_mipi_fhd {
+            display-timings {
+              native-mode = <0x0>;
+            };
+          };
+          lcd_nt35532_truly_mipi_fhd {
+            display-timings {
+              native-mode = <0x0>;
+            };
+          };
+          lcd_nt35596_boe_mipi_fhd {
+            display-timings {
+              native-mode = <0x0>;
+            };
+          };
+          lcd_dummy_mipi_hd {
+            display-timings {
+              native-mode = <0x0>;
+            };
+          };
+        };
+        charger-manager {
+          monitored-battery = <0x0>;
+        };
+      };
+    };
+    fragment@3 {
+      __overlay__ {
+        vbus-supply = <0x0>;
+      };
+    };
+    fragment@8 {
+      __overlay__ {
+        charger@6a {
+          monitored-battery = <0x0>;
+        };
+      };
+    };
+    fragment@10 {
+      __overlay__ {
+        monitored-battery = <0x0>;
+      };
+    };
+    fragment@11 {
+      __overlay__ {
+        sprd,backlight = <0x0>;
+      };
+    };
+    fragment@13 {
+      __overlay__ {
+        hwdvfs_dev = <0x0 0x4 0x8>;
+        cluster@0 {
+          dcdc-ctrl = <0x0>;
+        };
+        cluster@1 {
+          dcdc-ctrl = <0x0>;
+        };
+        dsu@0 {
+          dcdc-ctrl = <0x0>;
+        };
+      };
+    };
+    fragment@14 {
+      __overlay__ {
+        pinctrl-0 = <0x0>;
+        pinctrl-1 = <0x0>;
+        pinctrl-2 = <0x0>;
+        pinctrl-3 = <0x0>;
+        pinctrl-4 = <0x0>;
+        pinctrl-5 = <0x0>;
+        pinctrl-6 = <0x0>;
+        pinctrl-7 = <0x0>;
+        pinctrl-8 = <0x0>;
+        pinctrl-9 = <0x0>;
+        pinctrl-10 = <0x0 0x4 0x8 0xc 0x10 0x14>;
+      };
+    };
+    fragment@16 {
+      __overlay__ {
+        board-thmzone {
+          thermal-sensors = <0x0>;
+        };
+      };
+    };
+    fragment@22 {
+      __overlay__ {
+        heap@3 {
+          memory-region = <0x0>;
+        };
+        heap@4 {
+          memory-region = <0x0>;
+        };
+      };
+    };
+    fragment@23 {
+      __overlay__ {
+        sprd,logo-memory = <0x0>;
+      };
+    };
+  };
+};
