@@ -97,8 +97,10 @@ fastboot flashing get_unlock_ability   # or: fastboot oem device-info
 
 Already pulled / extractable without root:
 
-- `/vendor` full pull → `backup/partitions/vendor/` — HAL blobs, `etc/fstab`,
-  `build.prop`, `lib/modules/*.ko` (exact kernel module set), `firmware/`.
+- `partitions/{vendor,product,system_ext}.tar.gz` → full partition pulls —
+  HAL blobs, `etc/fstab`, `lib/modules/*.ko` (exact kernel module set), `firmware/`.
+  (Five root-only `build.prop` files excluded — values in `docs/device/getprop.txt`.)
+- `/system` (rootfs, ~1 GB) — pull later only if needed; mostly stock AOSP.
 - `/product`, `/system_ext` — pull same way if needed.
 - `extracted/kernel.config`, `fstab.s9863a3h10`, `init.s9863a3h10.rc` — already in repo.
 - Kernel .config confirms DSU/GSI hooks (`avb_keys=...q-gsi` in fstab).

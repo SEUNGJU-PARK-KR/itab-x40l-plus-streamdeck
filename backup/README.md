@@ -15,7 +15,13 @@ cover bootloader/partition-level recovery; for that see `docs/NATIVE_OS_PLAN.md`
 | `termux-home.tar.gz` (3 KB) | `$HOME` — start/stop/watchdog scripts, `.termux/`, `.ssh/authorized_keys`, logs | extract into Termux `$HOME` |
 | `pkg-list.txt` | `pkg list-installed` (109 packages) | `pkg install` each, or reinstall minimal set |
 | `deck-app-data/` | deck-launcher `shared_prefs` XMLs (AgentDeck bridge config, linux server state) | copy back via `run-as com.itab.deck` or just reconfigure in UI |
-| `partitions/vendor/` | full `/vendor` partition pull (HAL blobs, kernel modules, firmware, fstab, build props) | reference material for OS porting; not a flashable image |
+| `partitions/vendor.tar.gz` | `/vendor` full pull — HAL blobs, kernel modules (`lib/modules`), firmware, fstab, libs (~550 MB raw) | extract with `tar xzf -C <dir>`; member names are `./…` |
+| `partitions/product.tar.gz` | `/product` full pull — priv-apps incl. `IncarFota.apk`, overlay, libs | same |
+| `partitions/system_ext.tar.gz` | `/system_ext` full pull | same |
+
+All three are **reference material for OS porting** (see `docs/NATIVE_OS_PLAN.md`
+Phase 2), not flashable images. `/system` (rootfs, ~1 GB, stock AOSP) intentionally
+not pulled — re-pull per-APK via `pm path` if ever needed.
 
 ## What's intentionally excluded
 
@@ -25,6 +31,10 @@ cover bootloader/partition-level recovery; for that see `docs/NATIVE_OS_PLAN.md`
 - Termux `$PREFIX` (249 MB) — reinstallable via `pkg`; see `pkg-list.txt`.
 - No private keys anywhere: Termux `.ssh` contains only `authorized_keys`;
   `agentdeck_bridge.xml` token is empty.
+- Five root-only `build.prop`/`default.prop` files are excluded from the partition
+  tars (`/vendor/{build,default}.prop`, `/vendor/odm/etc/build.prop`,
+  `/product/build.prop`, `/system_ext/build.prop`). Their `ro.*` values are captured
+  in `docs/device/getprop.txt` instead.
 
 ## Restore procedure (Linux server)
 
